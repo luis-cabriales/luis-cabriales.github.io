@@ -159,16 +159,21 @@ function colocarMinas(excluirFila, excluirColumna) {
     const filaAleatoria = Math.floor(Math.random() * filas);
     const columnaAleatoria = Math.floor(Math.random() * columnas);
 
-    // Evitar colocar una mina en la posición inicial del primer clic
+    // Evitar colocar una mina en la posición inicial del primer clic y alrededor (3x3)
     if (
-      (filaAleatoria !== excluirFila || columnaAleatoria !== excluirColumna) &&
-      !tablero[filaAleatoria][columnaAleatoria].mina
+      filaAleatoria >= excluirFila - 1 && filaAleatoria <= excluirFila + 1 &&
+      columnaAleatoria >= excluirColumna - 1 && columnaAleatoria <= excluirColumna + 1
     ) {
-      tablero[filaAleatoria][columnaAleatoria].mina = true; // Marcar como mina
+      continue; // Saltar la colocación de la mina en esta posición
+    }
+
+    if (!tablero[filaAleatoria][columnaAleatoria].mina) {
+      tablero[filaAleatoria][columnaAleatoria].mina = true;
       minasColocadas++;
     }
   }
 }
+
 
 // Manejador del primer movimiento
 function manejarPrimerMovimiento(event) {
